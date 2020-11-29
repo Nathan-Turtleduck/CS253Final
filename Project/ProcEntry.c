@@ -76,3 +76,13 @@ void PrintProcEntry(ProcEntry *entry)
              entry->comm,
              entry->path);
 }
+
+void DestroyProcEntry(ProcEntry * entry){
+
+    if(entry == NULL){
+        return;
+    }
+
+    free(entry);
+
+}
