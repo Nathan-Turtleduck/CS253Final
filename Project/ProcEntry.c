@@ -16,6 +16,7 @@ ProcEntry * CreateProcEntry(void){
     ProcEntry * retEntry = (ProcEntry *) malloc(sizeof(ProcEntry));
 
     if(retEntry == NULL){
+        free(retEntry);
         return NULL;
     }else{
         return retEntry;
@@ -33,11 +34,15 @@ ProcEntry * CreateProcEntryFromFile(const char statFile[]){
     FILE * userFile = fopen(statFile, "r");
 
     if(userFile == NULL){
+        fprintf(stderr, "CreateProcEntryFromFile: No such file or directory\n");
         return NULL;
     }
 
     // Create ProcEntry and check if its NULL
     ProcEntry * newEntry = (ProcEntry *) malloc(sizeof(ProcEntry));
+    newEntry->comm = (char *) malloc(sizeof(char));
+    newEntry->path = (char *) malloc(sizeof(char));
+    strcpy(newEntry->path, statFile);
 
     if(newEntry == NULL){
         return NULL;
@@ -45,15 +50,20 @@ ProcEntry * CreateProcEntryFromFile(const char statFile[]){
 
     int numScanned = 0;
 
-    numScanned = fscanf(userFile, "%d, %s[^()], %c, %lu, %lu, %d",
-        newEntry->pid,
+    numScanned = fscanf(userFile, "%d %s %c %lu %lu %d",
+        &newEntry->pid,
         newEntry->comm,
-        newEntry->state,
-        newEntry->utime,
-        newEntry->stime,
-        newEntry->proc);
-    
+        &newEntry->state,
+        &newEntry->utime,
+        &newEntry->stime,
+        &newEntry->proc);
+
     if(numScanned != 6){
+        fprintf(stderr, "Error: Loaded %d out of 6\n", numScanned);
+        free(newEntry->path);
+        free(newEntry->comm);
+        free(newEntry);
+        fclose(userFile);
         return NULL;
     }
 
@@ -83,6 +93,8 @@ void DestroyProcEntry(ProcEntry * entry){
         return;
     }
 
+    free(entry->comm);
+    free(entry->path);
     free(entry);
 
 }
