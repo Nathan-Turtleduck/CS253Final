@@ -41,7 +41,7 @@ ProcEntry * CreateProcEntryFromFile(const char statFile[]){
     // Create ProcEntry and check if its NULL
     ProcEntry * newEntry = (ProcEntry *) malloc(sizeof(ProcEntry));
     newEntry->comm = (char *) malloc(sizeof(char));
-    newEntry->path = (char *) malloc(sizeof(char));
+    newEntry->path = (char *) malloc(sizeof(char) * strlen(statFile));
     strcpy(newEntry->path, statFile);
 
     if(newEntry == NULL){
@@ -50,7 +50,7 @@ ProcEntry * CreateProcEntryFromFile(const char statFile[]){
 
     int numScanned = 0;
 
-    numScanned = fscanf(userFile, "%d %s %c %lu %lu %d",
+    numScanned = fscanf(userFile, "%d %s %c %*d %*d %*d %*d %*d %*d %*d %*d %*d %*d %lu %lu %*d %*d %*d %*d %*d %*d %*d %*d %*d %*d %*d %*d %*d %*d %*d %*d %*d %*d %*d %*d %*d %*d %*d %d",
         &newEntry->pid,
         newEntry->comm,
         &newEntry->state,
