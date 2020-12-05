@@ -195,7 +195,6 @@ int main (int argc, char * argv[]) {
         }
     }
 
-
     /** Free up memory **/
     for(int i = 0; i < n; ++i){
         DestroyProcEntry(myprocs[i]);
