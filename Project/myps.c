@@ -1,7 +1,8 @@
 /* 
- * Author: Luke Hindman
- * Date: Fri 13 Nov 2020 12:21:37 PM PST
- * Description: Starter code for final project (myps)
+ * Author: Nathan Maroko
+ * Date: Fri 04 Dec 2020 04:09:14 PM PST
+ * Description: ./myps has the same functionality
+ * that the ps command has on linux
  */
 
 #define _GNU_SOURCE
